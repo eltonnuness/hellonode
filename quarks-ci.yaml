@@ -1,6 +1,6 @@
 version: '1'
 resource_types:
-  - name: 'node'
+  - name: 'node' 
     image: 'node:10-alpine'
   - name: 'build-push-image' 
     builder: 'build-push-image'
