@@ -1,0 +1,59 @@
+version: '1'
+resource_types:
+  - name: 'node'
+    image: 'node:10-alpine'
+  - name: 'build-push-image'
+    builder: 'build-push-image'
+  - name: 'release-deploy'
+    builder: 'release-deploy'
+context:
+  VOYAGER_REGISTRY_KEY: "registry"
+  VOYAGER_ENVIRONMENT_KEY: "myenvironment" 
+ 
+stages:
+  - name: 'checkout' 
+    commands: 
+      - checkout: 'scm' 
+  - name: 'build'
+    container:
+      label: 'node'
+    commands:
+      - sh: 'npm config set depth 0'
+      - sh: 'npm install'
+      - sh: 'npm run build'
+    cache:
+      - key: "npm"
+        path: "/root/.npm"
+      - key: "cypress"
+        path: "/root/.cache/Cypress"
+    only:
+      - "master"
+      - "develop"
+  - name: 'build-push-image-dev'
+    container:
+      builder: 'build-push-image'
+    only:
+      - "develop"
+    context:
+      VOYAGER_ENVIRONMENT_KEY: "myenvironment" 
+  - name: 'build-push-image-prod'
+    container:
+      builder: 'build-push-image'
+    only:
+      - "master"
+    context:
+      VOYAGER_ENVIRONMENT_KEY: "myenvironment2" 
+  - name: 'release-deploy-dev'
+    container:
+      builder: 'release-deploy'
+    only:
+      - "develop"
+    context:
+      VOYAGER_ENVIRONMENT_KEY: "myenvironment" 
+  - name: 'release-deploy-test'
+    container:
+      builder: 'release-deploy'
+    only:
+      - "master"
+    context:
+      VOYAGER_ENVIRONMENT_KEY: "myenvironment2" 
