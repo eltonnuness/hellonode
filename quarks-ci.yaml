@@ -27,7 +27,7 @@ stages:
       - key: "cypress"
         path: "/root/.cache/Cypress"
     only:
-      - "master"
+      - "master" 
       - "develop"
   - name: 'build-push-image-dev'
     container:
