@@ -29,7 +29,7 @@ stages:
     only:
       - "master" 
       - "develop"
-  - name: 'build-push-image-dev'
+  - name: 'build-push-image-dev' 
     container:
       builder: 'build-push-image'
     only:
