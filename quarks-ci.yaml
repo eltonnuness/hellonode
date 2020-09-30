@@ -3,7 +3,7 @@ resource_types:
   - name: 'node' 
     image: 'node:10-alpine'
   - name: 'build-push-image' 
-    builder: 'build-push-image' 
+    builder: 'build-push-image'  
   - name: 'release-deploy'
     builder: 'release-deploy'
 context:
