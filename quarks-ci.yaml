@@ -20,7 +20,6 @@ stages:
     commands:
       - sh: 'npm config set depth 0'
       - sh: 'npm install'
-      - sh: 'npm run build'  
     cache:
       - key: "npm"
         path: "/root/.npm"
